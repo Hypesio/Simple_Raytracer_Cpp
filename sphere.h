@@ -1,3 +1,4 @@
+#pragma once
 #include "model.h"
 
 class Sphere : public Model {
@@ -10,7 +11,7 @@ class Sphere : public Model {
          this->radius = radius; 
      }
 
-     bool RayIntersect(Point3 origin, Vector3 ray) override; 
+     Point3 *RayIntersect(Point3 origin, Vector3 ray) override; 
      Vector3 GetNormal(Point3 point) override; 
      float GetInfos(Point3 point) override;  
 };

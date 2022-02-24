@@ -19,3 +19,10 @@ float Point3::Distance(const Point3 right) const {
     float distz = pow(this->z - right.z, 2); 
     return sqrt(distx + disty + distz);
 }
+
+Point3 Point3::operator+(const Vector3 &right) const {
+    float x = this->x + right.x; 
+    float y = this->y + right.y; 
+    float z = this->z + right.z; 
+    return Point3(x, y, z);
+}

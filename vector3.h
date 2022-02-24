@@ -1,3 +1,4 @@
+#pragma once
 #include <iostream>
 
 class Vector3 {
@@ -16,9 +17,17 @@ class Vector3 {
 
      Vector3 operator-(const float &minus) const;
 
+     Vector3 operator-() const;
+
+     Vector3 operator/(const float &divisor) const;
+
      float dotProduct(const Vector3 &vector) const;
 
      float norm() const; 
+
+     float magnitude() const;
+
+     Vector3 normalized() const; 
 };
 
 std::ostream &operator<<(std::ostream &out, const Vector3 &vect);

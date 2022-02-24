@@ -1,3 +1,4 @@
+#pragma once
 #include <iostream>
 #include "vector3.h"
 
@@ -16,6 +17,8 @@ class Point3 {
      Vector3 operator-(const Point3 &right) const;
      
      float Distance(const Point3 right) const; 
+
+     Point3 operator+(const Vector3 &right) const;
 
 };
 

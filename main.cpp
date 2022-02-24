@@ -2,6 +2,7 @@
 #include "point_light.h"
 #include "scene.h"
 #include "sphere.h"
+#include "engine.h"
 
 int main() {
     
@@ -20,7 +21,7 @@ int main() {
 
     // --- Launch Engine
     
-
+    return 0;
 }
 
 int TestImage()  {
@@ -43,4 +44,5 @@ int TestImage()  {
 
     Image img = Image(height, width, pixels); 
     img.SaveImage("/home/antoinea/Desktop/IMAGE/Raytracer/test/ColorTest.ppm");
+    return 0;
 }
