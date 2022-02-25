@@ -3,6 +3,7 @@
 #include "scene.hh"
 #include "sphere.hh"
 #include "engine.hh"
+#include "camera.hh"
 
 int main() {
     
@@ -13,8 +14,8 @@ int main() {
     std::vector<LightSource> lights = std::vector<LightSource>();
     lights.push_back(mainLight); 
 
-    Model sphere1 = Sphere(Point3(0.5f, 0.5f, 2.5f), 0.7f);
-    std::vector<Model> objects = std::vector<Model>();
+    Model *sphere1 = new Sphere(Point3(0.5f, 0.5f, 2.5f), 0.7f);
+    std::vector<Model *> objects = std::vector<Model *>();
     objects.push_back(sphere1); 
      
     Scene mainScene = Scene(mainCam, lights, objects); 

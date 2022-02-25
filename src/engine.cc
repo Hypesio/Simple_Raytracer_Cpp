@@ -11,8 +11,8 @@ Image GenerateImage(Scene scene, int heightImg, int widthImg) {
 
             // 2 - Iterate on all objects
             //Color pixColor = Color(0, 0, 0); 
-            for (Model obj : scene.objects) {
-                Point3 *intersectPoint = obj.RayIntersect(scene.camera.center, ray);
+            for (Model *obj : scene.objects) {
+                Point3 *intersectPoint = obj->RayIntersect(scene.camera.center, ray);
                 if (intersectPoint != nullptr) {
                     //TODO
                 }

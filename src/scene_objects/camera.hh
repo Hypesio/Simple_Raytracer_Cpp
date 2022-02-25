@@ -1,4 +1,5 @@
 #pragma once
+
 #include <cmath>
 #include "point3.hh"
 #include "vector3.hh"
@@ -23,7 +24,9 @@ class Camera {
      float fovBeta; 
      float nearClipPlane; 
 
-     Camera();
+     Camera() {
+         
+     };
 
      Camera(Point3 center, Point3 lookAt, Vector3 up, float fovAlpha, float fovBeta, float nearClipPlane) {
          this->center = center; 
