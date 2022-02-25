@@ -1,4 +1,4 @@
-#include "sphere.h"
+#include "sphere.hh"
 #include <cmath>
 
 Point3 *Sphere::RayIntersect(Point3 origin, Vector3 ray){
@@ -39,5 +39,5 @@ Vector3 Sphere::GetNormal(Point3 point) {
 } 
 
 float Sphere::GetInfos(Point3 point) {
-    return this->texture.GetTextureInfos(point);
+    return texture->GetTextureInfos(point);
 }

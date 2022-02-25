@@ -1,4 +1,4 @@
-#include "engine.h"
+#include "engine.hh"
 
 Image GenerateImage(Scene scene, int heightImg, int widthImg) {
     // Step 1 - Iterate on all pixels
@@ -10,7 +10,7 @@ Image GenerateImage(Scene scene, int heightImg, int widthImg) {
             Vector3 ray = scene.camera.GetVectorPixel(h, w);
 
             // 2 - Iterate on all objects
-            Color pixColor = Color(0, 0, 0); 
+            //Color pixColor = Color(0, 0, 0); 
             for (Model obj : scene.objects) {
                 Point3 *intersectPoint = obj.RayIntersect(scene.camera.center, ray);
                 if (intersectPoint != nullptr) {

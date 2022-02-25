@@ -1,8 +1,8 @@
-#include "image.h"
-#include "point_light.h"
-#include "scene.h"
-#include "sphere.h"
-#include "engine.h"
+#include "image.hh"
+#include "point_light.hh"
+#include "scene.hh"
+#include "sphere.hh"
+#include "engine.hh"
 
 int main() {
     

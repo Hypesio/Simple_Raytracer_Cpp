@@ -1,7 +1,8 @@
 #pragma once
-#include "point3.h"
-#include "vector3.h"
 #include <cmath>
+#include "point3.hh"
+#include "vector3.hh"
+
 
 class Camera {
     private : 

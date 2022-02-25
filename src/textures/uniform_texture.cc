@@ -1,5 +1,5 @@
-#include "uniform_texture.h"
+#include "uniform_texture.hh"
 
 float UniformTexture::GetTextureInfos(Point3 point) {
-    return 2.0f;
+    return point.x;
 }

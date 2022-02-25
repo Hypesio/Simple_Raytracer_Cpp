@@ -1,6 +1,6 @@
 #pragma once
 #include <iostream>
-#include "vector3.h"
+#include "vector3.hh"
 
 class Point3 {
     public :

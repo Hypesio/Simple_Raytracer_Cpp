@@ -1,6 +1,6 @@
 #pragma once
-#include "image.h"
-#include "scene.h"
+#include "image.hh"
+#include "scene.hh"
 
 
 Image GenerateImage(Scene scene); 

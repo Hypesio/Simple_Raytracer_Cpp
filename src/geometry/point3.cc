@@ -1,4 +1,4 @@
-#include "point3.h"
+#include "point3.hh"
 #include <cmath>
 
 std::ostream &operator<<(std::ostream &os, const Point3 &point) {

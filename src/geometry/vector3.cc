@@ -1,4 +1,4 @@
-#include "vector3.h"
+#include "vector3.hh"
 #include <cmath>
 
 Vector3 Vector3::operator*(const float &multiplicator) const {

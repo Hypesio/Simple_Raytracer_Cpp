@@ -1,5 +1,7 @@
-#include "light_source.h"
-#include "point3.h"
+#pragma once
+
+#include "light_source.hh"
+#include "point3.hh"
 
 class PointLight : public LightSource {
     public : 

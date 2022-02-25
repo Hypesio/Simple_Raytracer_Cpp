@@ -1,4 +1,4 @@
-#include "image.h"
+#include "image.hh"
 #include <fstream>
 #include <iostream>
 #include <bitset>
@@ -24,5 +24,5 @@ void Image::SaveImage(std::string fileName) {
 
     file.close();
 
-    printf("Image saved at %s", fileName);
+    printf("Image saved");
 }

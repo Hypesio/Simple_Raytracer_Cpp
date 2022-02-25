@@ -1,4 +1,4 @@
-#include "camera.h"
+#include "camera.hh"
 #include <cmath>
 
 Vector3 Camera::GetVectorPixel(int posH, int posW) {
