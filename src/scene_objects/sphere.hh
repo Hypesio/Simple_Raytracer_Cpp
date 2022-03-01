@@ -13,7 +13,7 @@ public:
         this->radius = radius;
     }
 
-    Point3 *RayIntersect(Point3 origin, Vector3 ray);
+    std::shared_ptr<Point3> RayIntersect(Point3 origin, Vector3 ray);
     Vector3 GetNormal(Point3 point);
     float GetInfos(Point3 point);
 };

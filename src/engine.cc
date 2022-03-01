@@ -1,4 +1,5 @@
 #include "engine.hh"
+#include <iostream>
 
 Image GenerateImage(Scene scene, int heightImg, int widthImg)
 {
@@ -12,14 +13,15 @@ Image GenerateImage(Scene scene, int heightImg, int widthImg)
         for (int w = 0; w < widthImg; w++)
         {
             // 1 - Get the vector
-            Vector3 ray = scene.camera.GetVectorPixel(h, w);
-
+            Point3 pixelPos = scene.camera.GetPixelPos(h, w);
+            Vector3 ray = pixelPos - scene.camera.center; 
+            
             // 2 - Iterate on all objects
             Color pixColor = Color(0, 0, 0);
-            for (Model *obj : scene.objects)
+            for (std::shared_ptr<Model> obj : scene.objects)
             {
-                Point3 *intersectPoint =
-                    obj->RayIntersect(scene.camera.center, ray);
+                std::shared_ptr<Point3> intersectPoint =
+                    obj->RayIntersect(pixelPos, ray);
                 if (intersectPoint != nullptr)
                 {
                     // TMP just white color if intersect
@@ -27,9 +29,9 @@ Image GenerateImage(Scene scene, int heightImg, int widthImg)
                 }
             }
 
-            pixelColors.push_back(pixelColors);
+            pixelColors.emplace_back(pixColor);
         }
     }
 
-    return Image(heightImg, widthImg);
+    return Image(heightImg, widthImg, pixelColors);
 }

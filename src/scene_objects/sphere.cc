@@ -2,20 +2,19 @@
 
 #include <cmath>
 
-Point3 *Sphere::RayIntersect(Point3 origin, Vector3 ray)
+std::shared_ptr<Point3> Sphere::RayIntersect(Point3 origin, Vector3 ray)
 {
-    // [ray . (origin - center)]^2 - (||origin - center|| ^ 2 - radius ^ 2)
-    // If < 0 -> False else thrue
-    float start = pow(ray.dotProduct(origin - this->center), 2);
-    float end = pow((origin - center).norm(), 2) - pow(this->radius, 2);
-    float delta = start - end;
-    if (delta < 0)
+    float b = ray.dotProduct(origin - this->center) * 2;
+    float a = pow(ray.norm(), 2);
+    float c = pow((origin - this->center).norm(), 2) - pow(this->radius, 2);
+
+    float delta = pow(b / 2, 2) - a * c;
+    
+    if (delta < -0.001f)
     {
         return nullptr;
     }
 
-    float b = ray.dotProduct(origin - this->center) * 2;
-    float a = pow(ray.norm(), 2);
     float dist = 0.0f;
 
     // One intersection
@@ -31,7 +30,7 @@ Point3 *Sphere::RayIntersect(Point3 origin, Vector3 ray)
     }
 
     Point3 res = (origin + ray.normalized() * dist);
-    return new Point3(res.x, res.y, res.z);
+    return std::make_shared<Point3>(res.x, res.y, res.z);
 }
 
 Vector3 Sphere::GetNormal(Point3 point)

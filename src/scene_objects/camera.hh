@@ -32,6 +32,6 @@ class Camera {
 
      void SetPixelSize(int height, int width); 
 
-     Vector3 GetVectorPixel(int posH, int posW); 
+     Point3 GetPixelPos(int posH, int posW); 
 
 };
