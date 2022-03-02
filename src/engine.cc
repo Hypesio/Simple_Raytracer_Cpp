@@ -24,7 +24,11 @@ Image GenerateImage(Scene scene, int heightImg, int widthImg)
                     obj->RayIntersect(pixelPos, ray);
                 if (intersectPoint != nullptr)
                 {
-                    pixColor = obj->GetInfos(*intersectPoint);
+                    TextureInfos texInfos = obj->GetInfos(*intersectPoint);
+                    float vectorProduct = obj->GetNormal(*intersectPoint).dotProduct(scene.lights[0]->GetLightVector(*intersectPoint));
+                    pixColor = texInfos.color * texInfos.diffuse * vectorProduct * scene.lights[0]->intensity; 
+                    //std::cout << "Color " <<  texInfos.color * texInfos.diffuse << " diff" << texInfos.diffuse << " inten" << vectorProduct * scene.lights[0]->intensity << '\n';
+                    //std::cout << "Res " << pixColor << " VecProd " << vectorProduct << " lightVect " << scene.lights[0]->GetLightVector(*intersectPoint) << " Normal " << obj->GetNormal(*intersectPoint) << '\n';
                 }
             }
 

@@ -12,10 +12,10 @@ class Scene
 {
 public:
     Camera camera;
-    std::vector<LightSource> lights;
+    std::vector<std::shared_ptr<LightSource>> lights;
     std::vector<std::shared_ptr<Model>> objects;
 
-    Scene(Camera camera, std::vector<LightSource> lights,
+    Scene(Camera camera, std::vector<std::shared_ptr<LightSource>> lights,
           std::vector<std::shared_ptr<Model>> objects)
     {
         this->camera = camera;

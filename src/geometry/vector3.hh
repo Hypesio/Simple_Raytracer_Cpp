@@ -23,6 +23,8 @@ public:
 
     Vector3 operator/(const float &divisor) const;
 
+    Vector3 operator-(Vector3 right) const;
+
     float dotProduct(const Vector3 &vector) const;
 
     float norm() const;

@@ -25,17 +25,17 @@ Camera::Camera(Point3 center, Point3 lookAt, Vector3 up, float fovAlpha,
 
     Vector3 down = -up;
     // Cross product
-    right = forward.cross(up).normalized();
-    Vector3 left = -right;
+    Vector3 left = forward.cross(up).normalized();
+    right = -left;
 
-    originPixel = positionPlan + left * planeWidth / 2 + down * planeHeight / 2;
+    originPixel = positionPlan + left * (planeWidth / 2) + up * (planeHeight / 2);
 }
 
 Point3 Camera::GetPixelPos(int posH, int posW)
 {
     Point3 pixelPosition = originPixel
-        + up * pixelHeight * (posH + pixelHeight / 2)
-        + right * pixelWidth * (posW + pixelWidth / 2);
+        + -up * pixelHeight * (posH)
+        + right * pixelWidth * (posW);
     //std::cout << (posH + pixelHeight / 2) << '|'<< (posW + pixelWidth / 2) << " Pixel height " << pixelHeight << " Pixel w " << pixelWidth << '\n';
     return pixelPosition;
 }
@@ -44,4 +44,5 @@ void Camera::SetPixelSize(int height, int width)
 {
     pixelHeight = planeHeight / height;
     pixelWidth = planeWidth / width;
+    originPixel = originPixel + -up * (pixelHeight / 2) + right * (pixelWidth / 2);
 }

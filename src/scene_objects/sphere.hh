@@ -27,5 +27,5 @@ public:
 
     std::shared_ptr<Point3> RayIntersect(Point3 origin, Vector3 ray) override;
     Vector3 GetNormal(Point3 point) override;
-    Color GetInfos(Point3 point) ;
+    TextureInfos GetInfos(Point3 point) ;
 };

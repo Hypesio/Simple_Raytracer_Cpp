@@ -9,25 +9,26 @@ int main()
 {
     // --- Prepare Scene
     Camera mainCam = Camera(Point3(0, 1, 0), Point3(0, 1, 1), Vector3(0, 1, 0),
-                            80, 80, 0.1f);
+                            90, 60, 0.1f);
 
-    LightSource mainLight = PointLight(Point3(0, 2, 2.5f), 1, 3);
-    std::vector<LightSource> lights = std::vector<LightSource>();
+    auto mainLight = std::make_shared<PointLight>(Point3(0.3f, 2, 2.5f), 1, 8);
+    std::vector<std::shared_ptr<LightSource>> lights = std::vector<std::shared_ptr<LightSource>>();
     lights.push_back(mainLight);
 
 
     std::vector<std::shared_ptr<Model>> objects = std::vector<std::shared_ptr<Model>>();
     objects.push_back(std::make_shared<Sphere>(Point3(0, 1.0f, 5.0f), 2.7f));
-    objects.push_back(std::make_shared<Sphere>(Point3(0.5f, 0.5f, 2.0f), 0.7f, std::make_shared<UniformTexture>(Color(255, 0, 0))));
-    objects.push_back(std::make_shared<Sphere>(Point3(-0.5f, 0.5f, 2.0f), 0.7f, std::make_shared<UniformTexture>(Color(255, 255, 0))));
+    objects.push_back(std::make_shared<Sphere>(Point3(0.5f, 1.0f, 4.0f), 1.4f, std::make_shared<UniformTexture>(Color(255, 0, 0), 0.3f)));
+    objects.push_back(std::make_shared<Sphere>(Point3(-1.6f, 0.5f, 4.0f), 1.4f, std::make_shared<UniformTexture>(Color(255, 255, 0), 1.5f)));
+    objects.push_back(std::make_shared<Sphere>(Point3(-1.6f, 1.5f, 4.0f), 1.4f, std::make_shared<UniformTexture>(Color(255, 180, 0))));
 
     Scene mainScene = Scene(mainCam, lights, objects);
 
     // --- Launch Engine
     printf("Image is ready\n");
-    Image img = GenerateImage(mainScene, 1000, 1000);
-    //img.SaveImage("/home/antoinea/Desktop/IMAGE/Raytracer/test/SphereTest.ppm");
-    img.SaveImage(R"(C:\Users\Melvin\Documents\Ubuntu\Image\Raytracer\test\SphereTest.ppm)");
+    Image img = GenerateImage(mainScene, 900, 1600);
+    img.SaveImage("/home/antoinea/Desktop/IMAGE/Raytracer/test/SphereTest.ppm");
+    //img.SaveImage(R"(C:\Users\Melvin\Documents\Ubuntu\Image\Raytracer\test\SphereTest.ppm)");
 
     return 0;
 }

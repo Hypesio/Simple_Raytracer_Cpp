@@ -34,6 +34,17 @@ Vector3 Vector3::operator-() const
     return newVect;
 }
 
+Vector3 Vector3::operator-(Vector3 right) const
+{    
+    float y = this->y - right.x;
+    float x = this->x - right.y;
+    float z = this->z - right.z;
+
+    Vector3 newVect = Vector3(x, y, z);
+
+    return newVect;
+}
+
 float Vector3::norm() const
 {
     float sum = pow(this->x, 2) + pow(this->y, 2) + pow(this->z, 2);
@@ -44,8 +55,10 @@ float Vector3::norm() const
 float Vector3::dotProduct(const Vector3 &right) const
 {
     float sum = this->x * right.x + this->y * right.y + this->z * right.z;
+    //float sum = 1/2 * (pow(this->norm(), 2) + pow(right.norm(), 2) - pow((right - *this).norm(), 2));
     return sum;
 }
+
 
 std::ostream &operator<<(std::ostream &os, const Vector3 &vect)
 {
