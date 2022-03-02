@@ -1,9 +1,10 @@
 #pragma once
 #include "point3.hh"
+#include "color.hh"
 
 class TextureMaterial
 {
 public:
     // Should return diffuse and specular on specific point
-    virtual float GetTextureInfos(Point3 point) = 0;
+    virtual Color GetTextureInfos(Point3 point) = 0;
 };

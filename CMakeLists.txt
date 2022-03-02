@@ -33,14 +33,9 @@ endif()
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -pedantic")
 set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} ${OPT_FLAGS}")
-set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -O0 -g3 -fsanitize=address")
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -O0 -g3") # -fsanitize=address")
 
 # LIBRARIES
-if (CMAKE_BUILD_TYPE STREQUAL "Release")
-    set(Boost_USE_STATIC_LIBS ON)
-endif()
-find_package(Boost REQUIRED COMPONENTS system program_options)
-set(LIBRARIES Boost::system Boost::program_options ${CMAKE_DL_LIBS})
 
 # RAYTRACER
 add_executable(raytracer)

@@ -18,14 +18,13 @@ Image GenerateImage(Scene scene, int heightImg, int widthImg)
             
             // 2 - Iterate on all objects
             Color pixColor = Color(0, 0, 0);
-            for (std::shared_ptr<Model> obj : scene.objects)
+            for (const std::shared_ptr<Model>& obj : scene.objects)
             {
                 std::shared_ptr<Point3> intersectPoint =
                     obj->RayIntersect(pixelPos, ray);
                 if (intersectPoint != nullptr)
                 {
-                    // TMP just white color if intersect
-                    pixColor = Color(255, 255, 255);
+                    pixColor = obj->GetInfos(*intersectPoint);
                 }
             }
 
@@ -33,5 +32,5 @@ Image GenerateImage(Scene scene, int heightImg, int widthImg)
         }
     }
 
-    return Image(heightImg, widthImg, pixelColors);
+    return {heightImg, widthImg, pixelColors};
 }

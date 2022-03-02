@@ -1,4 +1,5 @@
 #include "sphere.hh"
+#include "color.hh"
 
 #include <cmath>
 
@@ -18,14 +19,15 @@ std::shared_ptr<Point3> Sphere::RayIntersect(Point3 origin, Vector3 ray)
     float dist = 0.0f;
 
     // One intersection
-    if (abs(delta) < 0.001f)
+    if (std::abs(delta) < 0.001f)
     {
         dist = -b / (2 * a);
     }
+    // Two intersections
     else
     {
-        float dist1 = (-b - sqrt(delta)) / (2 * a);
-        float dist2 = (-b + sqrt(delta)) / (2 * a);
+        float dist1 = (-b - std::sqrt(delta)) / (2 * a);
+        float dist2 = (-b + std::sqrt(delta)) / (2 * a);
         dist = dist1 > dist2 ? dist2 : dist1;
     }
 
@@ -36,15 +38,15 @@ std::shared_ptr<Point3> Sphere::RayIntersect(Point3 origin, Vector3 ray)
 Vector3 Sphere::GetNormal(Point3 point)
 {
     // Point is not on the sphere surface
-    if (abs(this->center.Distance(point) - radius) > 0.1f)
+    if (std::abs(this->center.Distance(point) - radius) > 0.1f)
     {
-        return Vector3(0, 0, 0);
+        return {0, 0, 0};
     }
 
     return (point - center).normalized();
 }
 
-float Sphere::GetInfos(Point3 point)
+Color Sphere::GetInfos(Point3 point)
 {
     return texture->GetTextureInfos(point);
 }

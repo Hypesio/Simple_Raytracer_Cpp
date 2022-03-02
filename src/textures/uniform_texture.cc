@@ -1,6 +1,7 @@
 #include "uniform_texture.hh"
+#include "color.hh"
 
-float UniformTexture::GetTextureInfos(Point3 point)
+Color UniformTexture::GetTextureInfos(Point3 point)
 {
-    return point.x;
+    return color;
 }

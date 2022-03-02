@@ -15,16 +15,19 @@ int main()
     std::vector<LightSource> lights = std::vector<LightSource>();
     lights.push_back(mainLight);
 
-    std::shared_ptr<Model> sphere1 = std::make_shared<Sphere>(Point3(0, 1.0f, 2.0f), 0.7f);
+
     std::vector<std::shared_ptr<Model>> objects = std::vector<std::shared_ptr<Model>>();
-    objects.push_back(sphere1);
+    objects.push_back(std::make_shared<Sphere>(Point3(0, 1.0f, 5.0f), 2.7f));
+    objects.push_back(std::make_shared<Sphere>(Point3(0.5f, 0.5f, 2.0f), 0.7f, std::make_shared<UniformTexture>(Color(255, 0, 0))));
+    objects.push_back(std::make_shared<Sphere>(Point3(-0.5f, 0.5f, 2.0f), 0.7f, std::make_shared<UniformTexture>(Color(255, 255, 0))));
 
     Scene mainScene = Scene(mainCam, lights, objects);
 
     // --- Launch Engine
     printf("Image is ready\n");
     Image img = GenerateImage(mainScene, 1000, 1000);
-    img.SaveImage("/home/antoinea/Desktop/IMAGE/Raytracer/test/SphereTest.ppm"); 
+    //img.SaveImage("/home/antoinea/Desktop/IMAGE/Raytracer/test/SphereTest.ppm");
+    img.SaveImage(R"(C:\Users\Melvin\Documents\Ubuntu\Image\Raytracer\test\SphereTest.ppm)");
 
     return 0;
 }

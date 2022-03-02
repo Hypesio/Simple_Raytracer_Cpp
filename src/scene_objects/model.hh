@@ -11,5 +11,5 @@ protected:
 public:
     virtual std::shared_ptr<Point3> RayIntersect(Point3 origin, Vector3 ray) = 0;
     virtual Vector3 GetNormal(Point3 point) = 0;
-    virtual float GetInfos(Point3 point) = 0;
+    virtual Color GetInfos(Point3 point) = 0;
 };
