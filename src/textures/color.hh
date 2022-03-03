@@ -14,19 +14,20 @@ public:
 
     }
     
-    Color(int r, int g, int b, float a = 1.0F)
+    Color(int red, int green, int blue, float a = 1.0F)
     {
-        this->r = r > 255 ? 255 : r;
-        this->r =  r < 0 ? 0 : r;
-        this->g = g > 255 ? 255 : g;
-        this->g =  g < 0 ? 0 : g;
-        this->b = b > 255 ? 255 : b;
-        this->b =  b < 0 ? 0 : b;
+        r = red > 255 ? 255 : red;
+        r =  r < 0 ? 0 : r;
+
+        g = green > 255 ? 255 : green;
+        g =  g < 0 ? 0 : g;
+        b = blue > 255 ? 255 : blue;
+        b =  b < 0 ? 0 : b;
         this->a = a;
     }
 
     Color operator*(const float &multiplicator) const;
-    Color operator*(const Vector3 &multiplicator) const;
+    Color operator+(const Color &rhs) const;
 };
 
 std::ostream &operator<<(std::ostream &out, const Color &color);

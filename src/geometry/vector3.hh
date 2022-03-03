@@ -25,6 +25,8 @@ public:
 
     Vector3 operator-(Vector3 right) const;
 
+    Vector3 reflection(Vector3 normal) const; 
+
     float dotProduct(const Vector3 &vector) const;
 
     float norm() const;

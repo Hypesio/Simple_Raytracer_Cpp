@@ -96,3 +96,9 @@ Vector3 Vector3::cross(Vector3 &rhs) const
     return Vector3(y * rhs.z - z * rhs.y, z * rhs.x - x * rhs.z,
                    x * rhs.y - y * rhs.x);
 }
+
+Vector3 Vector3::reflection(Vector3 normal) const {
+    normal = normal.normalized();
+    Vector3 ray = this->normalized();
+    return (ray - normal * ray.dotProduct(normal) * 2.0f).normalized();
+}

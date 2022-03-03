@@ -25,10 +25,24 @@ Image GenerateImage(Scene scene, int heightImg, int widthImg)
                 if (intersectPoint != nullptr)
                 {
                     TextureInfos texInfos = obj->GetInfos(*intersectPoint);
-                    float vectorProduct = obj->GetNormal(*intersectPoint).dotProduct(scene.lights[0]->GetLightVector(*intersectPoint));
-                    pixColor = texInfos.color * texInfos.diffuse * vectorProduct * scene.lights[0]->intensity; 
-                    //std::cout << "Color " <<  texInfos.color * texInfos.diffuse << " diff" << texInfos.diffuse << " inten" << vectorProduct * scene.lights[0]->intensity << '\n';
-                    //std::cout << "Res " << pixColor << " VecProd " << vectorProduct << " lightVect " << scene.lights[0]->GetLightVector(*intersectPoint) << " Normal " << obj->GetNormal(*intersectPoint) << '\n';
+
+                    Vector3 lightVector = scene.lights[0]->GetLightVector(*intersectPoint);
+                    float intensity = scene.lights[0]->intensity;
+                    Vector3 normalVector = obj->GetNormal(*intersectPoint);
+
+                    // -- Diffuse
+                    float vectorProduct = normalVector.dotProduct(lightVector);
+                    Color diffuse = texInfos.color * texInfos.diffuse * vectorProduct * intensity; 
+
+                    // -- Specular
+                    Vector3 reflection = ray.reflection(normalVector); 
+                    float ns = 15;
+                    Color specular = texInfos.color * texInfos.specular * intensity * pow(reflection.dotProduct(lightVector), ns);
+                    
+                    //if (diffuse.r != 0 && diffuse.g != 0)
+                        //std::cout << "Diffuse " << diffuse << " | Specular " << specular << " Ref " << reflection << " prod " << reflection.dotProduct(lightVector) << '\n';
+
+                    pixColor = specular + diffuse; 
                 }
             }
 

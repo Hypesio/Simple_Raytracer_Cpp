@@ -14,10 +14,10 @@ Color Color::operator*(const float &multiplicator) const {
     return Color(red, green, blue);
 }
 
-Color Color::operator*(const Vector3 &multiplicator) const {
-    float red = r * multiplicator.x;
-    float green = g * multiplicator.y;
-    float blue = b * multiplicator.z;
+Color Color::operator+(const Color &rhs) const {
+    float red = r + rhs.r; 
+    float green = g + rhs.g; 
+    float blue = b + rhs.b; 
 
     return Color(red, green, blue);
 }

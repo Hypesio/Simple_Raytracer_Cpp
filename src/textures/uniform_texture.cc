@@ -3,5 +3,5 @@
 
 TextureInfos UniformTexture::GetTextureInfos(Point3 point)
 {
-    return TextureInfos {color, diffuse, 0};
+    return TextureInfos {color, diffuse, specular};
 }
