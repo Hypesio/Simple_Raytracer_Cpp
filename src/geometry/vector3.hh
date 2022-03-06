@@ -21,6 +21,8 @@ public:
 
     Vector3 operator-() const;
 
+    Vector3 operator+(Vector3 right) const;
+
     Vector3 operator/(const float &divisor) const;
 
     Vector3 operator-(Vector3 right) const;
@@ -39,3 +41,4 @@ public:
 };
 
 std::ostream &operator<<(std::ostream &out, const Vector3 &vect);
+Vector3 operator*(const float &multiplicator, const Vector3 &lhs);

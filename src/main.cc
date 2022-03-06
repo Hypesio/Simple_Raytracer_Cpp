@@ -7,24 +7,28 @@
 
 int main()
 {
+    Vector3 vec = Vector3(0.8f, 0.2f, 0).normalized(); 
+    Vector3 normal = Vector3(0, 1, 0).normalized();
+    Vector3 reflect = vec.reflection(normal); 
+    std::cout << normal.dotProduct(vec) << " " << normal.dotProduct(reflect) << '\n';
 
     // --- Prepare Scene
     Camera mainCam = Camera(Point3(0, 1, 0), Point3(0, 1, 1), Vector3(0, 1, 0),
                             90, 60, 0.1f);
 
-    auto mainLight = std::make_shared<PointLight>(Point3(0.5f, 1.5f, 3.0f), 1, 8);
+    auto mainLight = std::make_shared<PointLight>(Point3(2.0f, 4.0f, 4.0f), 1, 8);
     std::vector<std::shared_ptr<LightSource>> lights = std::vector<std::shared_ptr<LightSource>>();
     lights.push_back(mainLight);
 
 
     std::vector<std::shared_ptr<Model>> objects = std::vector<std::shared_ptr<Model>>();
-    objects.push_back(std::make_shared<Sphere>(Point3(0, 1.0f, 8.0f), 2.7f));
-    objects.push_back(std::make_shared<Sphere>(Point3(0.75f, -50.0f, 4.0f), 50.0f, std::make_shared<UniformTexture>(Color(0, 0, 125), 1, 0)));
-    objects.push_back(std::make_shared<Sphere>(Point3(0.0f, 0.0f, 70.0f), 50.0f, std::make_shared<UniformTexture>(Color(0, 125, 0), 1, 0)));
-    objects.push_back(std::make_shared<Sphere>(Point3(0.75f, 0.75f, 4.0f), 0.7f, std::make_shared<UniformTexture>(Color(255, 0, 0), 0.6f, 0.2f)));
-    objects.push_back(std::make_shared<Sphere>(Point3(-2.3f, 0.0f, 3.0f), 0.5f, std::make_shared<UniformTexture>(Color(255, 255, 0), 0.5f, 0.4f)));
-    objects.push_back(std::make_shared<Sphere>(Point3(-2.0f, 1.5f, 4.0f), 0.4f, std::make_shared<UniformTexture>(Color(255, 180, 0), 0.5f, 0.5f)));
-    objects.push_back(std::make_shared<Sphere>(Point3(0.5f, 1.5f, 3.0f), 0.2f, std::make_shared<UniformTexture>(Color(255, 255, 255), 0.5f, 0.5f)));
+    objects.push_back(std::make_shared<Sphere>(Point3(0, 1.0f, 4.0f), 1.4f));
+    //objects.push_back(std::make_shared<Sphere>(Point3(0.75f, -50.0f, 4.0f), 50.0f, std::make_shared<UniformTexture>(Color(0, 0, 125), 1, 0)));
+    //objects.push_back(std::make_shared<Sphere>(Point3(0.0f, 0.0f, 70.0f), 50.0f, std::make_shared<UniformTexture>(Color(0, 125, 0), 1, 0)));
+    //objects.push_back(std::make_shared<Sphere>(Point3(0.75f, 0.75f, 4.0f), 0.7f, std::make_shared<UniformTexture>(Color(255, 0, 0), 0.6f, 0.8f)));
+    //objects.push_back(std::make_shared<Sphere>(Point3(-2.3f, 0.0f, 3.0f), 0.5f, std::make_shared<UniformTexture>(Color(255, 255, 0), 0.5f, 0.2f)));
+    objects.push_back(std::make_shared<Sphere>(Point3(-2.0f, 1.5f, 4.0f), 0.4f, std::make_shared<UniformTexture>(Color(255, 180, 0), 0.5f, 0.2f)));
+    //objects.push_back(std::make_shared<Sphere>(Point3(0.5f, 1.5f, 3.0f), 0.2f, std::make_shared<UniformTexture>(Color(255, 255, 255), 0.5f, 0.5f)));
 
     Scene mainScene = Scene(mainCam, lights, objects);
 

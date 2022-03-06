@@ -40,13 +40,6 @@ std::shared_ptr<Point3> Sphere::RayIntersect(Point3 origin, Vector3 ray)
 
 Vector3 Sphere::GetNormal(Point3 point)
 {
-    // Point is not on the sphere surface
-    /*if (std::abs(this->center.Distance(point) - radius) > 0.1f)
-    {
-        std::cout << " Miss the sphere " << '\n';
-        return {0, 0, 0};
-    }*/
-    //std::cout << "point " << point << " direction " << (point - center).normalized() << '\n';
     return (point - center).normalized();
 }
 

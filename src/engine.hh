@@ -4,4 +4,4 @@
 #include "color.hh"
 
 Image GenerateImage(Scene scene,int heightImg, int widthImg);
-float GetIllumination(Scene scene, Vector3 ray, Point3 origin, int bounce);
+Color GetIllumination(Scene scene, std::shared_ptr<Model> obj, Vector3 ray, Point3 origin, int bounce);

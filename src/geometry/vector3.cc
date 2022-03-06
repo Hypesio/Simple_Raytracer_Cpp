@@ -12,6 +12,16 @@ Vector3 Vector3::operator*(const float &multiplicator) const
     return newVect;
 }
 
+Vector3 operator*(const float &multiplicator, const Vector3 &lhs)
+{
+    float y = lhs.y * multiplicator;
+    float x = lhs.x * multiplicator;
+    float z = lhs.z * multiplicator;
+
+    Vector3 newVect = Vector3(x, y, z);
+    return newVect;
+}
+
 Vector3 Vector3::operator-(const float &minus) const
 {
     float y = this->y - minus;
@@ -36,14 +46,26 @@ Vector3 Vector3::operator-() const
 
 Vector3 Vector3::operator-(Vector3 right) const
 {    
-    float y = this->y - right.x;
-    float x = this->x - right.y;
+    float y = this->y - right.y;
+    float x = this->x - right.x;
     float z = this->z - right.z;
 
     Vector3 newVect = Vector3(x, y, z);
 
     return newVect;
 }
+
+Vector3 Vector3::operator+(Vector3 right) const
+{    
+    float y = this->y + right.y;
+    float x = this->x + right.x;
+    float z = this->z + right.z;
+
+    Vector3 newVect = Vector3(x, y, z);
+
+    return newVect;
+}
+
 
 float Vector3::norm() const
 {
@@ -53,9 +75,11 @@ float Vector3::norm() const
 }
 
 float Vector3::dotProduct(const Vector3 &right) const
-{
+{   
+    Vector3 rightNorm = right; 
+    Vector3 thisNorm = *this; 
+
     float sum = this->x * right.x + this->y * right.y + this->z * right.z;
-    //float sum = 1/2 * (pow(this->norm(), 2) + pow(right.norm(), 2) - pow((right - *this).norm(), 2));
     return sum;
 }
 
@@ -100,5 +124,6 @@ Vector3 Vector3::cross(Vector3 &rhs) const
 Vector3 Vector3::reflection(Vector3 normal) const {
     normal = normal.normalized();
     Vector3 ray = this->normalized();
-    return (ray - normal * ray.dotProduct(normal) * 2.0f).normalized();
+
+    return (ray - 2 * normal.dotProduct(ray) * normal).normalized(); //(ray * ray.dotProduct(normal) + normal * (pow(ray.magnitude(), 2) - 2 * pow(ray.dotProduct(normal), 2))) * -1; 
 }
