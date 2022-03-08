@@ -31,3 +31,7 @@ Point3 Point3::operator+(const Vector3 &right) const
     float z = this->z + right.z;
     return Point3(x, y, z);
 }
+
+Vector3 Point3::pointToVector() const {
+    return Vector3(x, y, z);
+}

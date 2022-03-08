@@ -22,6 +22,8 @@ public:
     float Distance(const Point3 right) const;
 
     Point3 operator+(const Vector3 &right) const;
+
+    Vector3 pointToVector() const;
 };
 
 std::ostream &operator<<(std::ostream &os, const Point3 &point);

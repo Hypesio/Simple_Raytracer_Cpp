@@ -44,31 +44,39 @@ Image GenerateImage(Scene scene, int heightImg, int widthImg)
             {
                 TextureInfos texInfos = bestObj->GetInfos(*bestIntersectPoint);
 
-                Vector3 lightVector =
-                    scene.lights[0]->GetLightVector(*bestIntersectPoint);
-                float lightDistance = lightVector.magnitude();
-                lightVector = lightVector.normalized();
+                for (int i = 0; i < scene.lights.size(); i++)
+                {
+                    Vector3 lightVector =
+                        scene.lights[i]->GetLightVector(*bestIntersectPoint);
 
-                float intensity = scene.lights[0]->intensity;
-                Vector3 normalVector = bestObj->GetNormal(*bestIntersectPoint);
+                    if (LightVectorIntersectObj(scene, lightVector, *bestIntersectPoint, bestObj)) {
+                        continue;
+                    }
 
-                // -- Diffuse
-                float vectorProduct = normalVector.dotProduct(lightVector);
-                Color diffuse = texInfos.color * texInfos.diffuse
-                    * vectorProduct * intensity;
+                    float lightDistance = lightVector.magnitude();
+                    lightVector = lightVector.normalized();
 
-                // -- Specular
-                Vector3 reflection = ray.reflection(normalVector);
+                    float intensity = scene.lights[i]->intensity;
+                    Vector3 normalVector =
+                        bestObj->GetNormal(*bestIntersectPoint);
 
-                float ns = 15.0f;
-                Color specular = texInfos.color * texInfos.specular 
-                    * pow(reflection.dotProduct(lightVector), ns) * intensity;
+                    // -- Diffuse
+                    float vectorProduct = normalVector.dotProduct(lightVector);
+                    Color diffuse = texInfos.color * texInfos.diffuse
+                        * vectorProduct * intensity;
 
-                //if (ray.dotProduct(normalVector) != reflection.dotProduct(normalVector))
-                    //std::cout << (-ray).dotProduct(normalVector) << " | " << reflection.dotProduct(normalVector) << '\n';
+                    // -- Specular
+                    Vector3 reflection = ray.reflection(normalVector);
 
-                Color reflectionIllumination = GetIllumination(scene, bestObj, reflection, *bestIntersectPoint, 1);
-                pixColor = specular + diffuse + (reflectionIllumination * texInfos.specular);
+                    float ns = 15.0f;
+                    Color specular = texInfos.color * texInfos.specular
+                        * pow(reflection.dotProduct(lightVector), ns)
+                        * intensity;
+
+                    Color reflectionIllumination = GetIllumination(
+                        scene, bestObj, reflection, *bestIntersectPoint, 12);
+                    pixColor = pixColor + specular + diffuse; //+ (reflectionIllumination * texInfos.specular);
+                }
             }
 
             pixelColors.emplace_back(pixColor);
@@ -78,11 +86,31 @@ Image GenerateImage(Scene scene, int heightImg, int widthImg)
     return { heightImg, widthImg, pixelColors };
 }
 
-Color GetIllumination(Scene scene, std::shared_ptr<Model> lastObjTouched, Vector3 ray, Point3 origin, int bounce)
+bool LightVectorIntersectObj(Scene scene, Vector3 lightVector, Point3 origin, std::shared_ptr<Model> objStart)
+{
+    for (const std::shared_ptr<Model> &obj : scene.objects)
+    {
+        if (obj == objStart)
+            continue;
+        std::shared_ptr<Point3> intersectPoint =
+            obj->RayIntersect(origin, lightVector);
+        if (intersectPoint != nullptr)
+        {
+            if ((intersectPoint->pointToVector() - origin.pointToVector()).magnitude() > lightVector.magnitude())
+                continue;
+            //std::cout << "Colide point " << *intersectPoint << " dist " << (intersectPoint->pointToVector() - origin.pointToVector()).magnitude() << '\n';
+            return true;
+        }
+    }
+    return false;
+}
+
+Color GetIllumination(Scene scene, std::shared_ptr<Model> lastObjTouched,
+                      Vector3 ray, Point3 origin, int bounce)
 {
     if (bounce <= 0)
     {
-        return Color(0,0,0);
+        return Color(0, 0, 0);
     }
 
     origin = origin + ray.normalized() * 0.001f;
@@ -93,14 +121,11 @@ Color GetIllumination(Scene scene, std::shared_ptr<Model> lastObjTouched, Vector
 
     for (const std::shared_ptr<Model> &obj : scene.objects)
     {
-        if (obj == lastObjTouched)
-            continue; 
-            
         std::shared_ptr<Point3> intersectPoint = obj->RayIntersect(origin, ray);
         if (intersectPoint != nullptr)
         {
-            if (origin.x > 0)
-                std::cout << origin << '\n';
+            // if (origin.x > 0)
+            // std::cout << origin << '\n';
             float dist = (scene.camera.center - *intersectPoint).magnitude();
             if (dist < minDistance)
             {
@@ -111,9 +136,9 @@ Color GetIllumination(Scene scene, std::shared_ptr<Model> lastObjTouched, Vector
         }
     }
 
-    if (bestIntersectPoint == nullptr)
+    if (bestIntersectPoint == nullptr || bestObj == lastObjTouched)
     {
-        return Color(0,0,0);
+        return Color(0, 0, 0);
     }
 
     TextureInfos texInfos = bestObj->GetInfos(*bestIntersectPoint);
@@ -121,13 +146,14 @@ Color GetIllumination(Scene scene, std::shared_ptr<Model> lastObjTouched, Vector
     Vector3 lightVector = scene.lights[0]->GetLightVector(*bestIntersectPoint);
     float lightDistance = lightVector.magnitude();
     lightVector = lightVector.normalized();
-    
+
     float intensity = scene.lights[0]->intensity;
     Vector3 normalVector = bestObj->GetNormal(*bestIntersectPoint);
 
     // -- Diffuse
     float vectorProduct = normalVector.dotProduct(lightVector);
-    Color diffuse = texInfos.color * texInfos.diffuse * vectorProduct * intensity;
+    Color diffuse =
+        texInfos.color * texInfos.diffuse * vectorProduct * intensity;
 
     // -- Specular
     Vector3 reflection = ray.reflection(normalVector);
@@ -138,5 +164,71 @@ Color GetIllumination(Scene scene, std::shared_ptr<Model> lastObjTouched, Vector
 
     Color intensityOnPoint = specular + diffuse;
 
-    return (intensityOnPoint + GetIllumination(scene, bestObj, reflection, *bestIntersectPoint, bounce - 1));
+    return (intensityOnPoint
+            + GetIllumination(scene, bestObj, reflection, *bestIntersectPoint,
+                              bounce - 1));
+}
+
+Color GetReflection(Scene scene, std::shared_ptr<Model> lastObjTouched,
+                    Vector3 ray, Point3 origin, int bounce)
+{
+    if (bounce <= 0)
+    {
+        return Color(0, 0, 0);
+    }
+
+    origin = origin + ray.normalized() * 0.001f;
+
+    float minDistance = 123456789.0f;
+    std::shared_ptr<Point3> bestIntersectPoint = nullptr;
+    std::shared_ptr<Model> bestObj = nullptr;
+
+    for (const std::shared_ptr<Model> &obj : scene.objects)
+    {
+        std::shared_ptr<Point3> intersectPoint = obj->RayIntersect(origin, ray);
+        if (intersectPoint != nullptr)
+        {
+            // if (origin.x > 0)
+            // std::cout << origin << '\n';
+            float dist = (scene.camera.center - *intersectPoint).magnitude();
+            if (dist < minDistance)
+            {
+                minDistance = dist;
+                bestIntersectPoint = intersectPoint;
+                bestObj = obj;
+            }
+        }
+    }
+
+    if (bestIntersectPoint == nullptr || bestObj == lastObjTouched)
+    {
+        return Color(0, 0, 0);
+    }
+
+    TextureInfos texInfos = bestObj->GetInfos(*bestIntersectPoint);
+
+    Vector3 lightVector = scene.lights[0]->GetLightVector(*bestIntersectPoint);
+    float lightDistance = lightVector.magnitude();
+    lightVector = lightVector.normalized();
+
+    float intensity = scene.lights[0]->intensity;
+    Vector3 normalVector = bestObj->GetNormal(*bestIntersectPoint);
+
+    // -- Diffuse
+    float vectorProduct = normalVector.dotProduct(lightVector);
+    Color diffuse =
+        texInfos.color * texInfos.diffuse * vectorProduct * intensity;
+
+    // -- Specular
+    Vector3 reflection = ray.reflection(normalVector);
+
+    float ns = 15;
+    Color specular = texInfos.color * texInfos.specular * intensity
+        * pow(reflection.dotProduct(lightVector), ns);
+
+    Color intensityOnPoint = specular + diffuse;
+
+    return (intensityOnPoint
+            + GetIllumination(scene, bestObj, reflection, *bestIntersectPoint,
+                              bounce - 1));
 }
