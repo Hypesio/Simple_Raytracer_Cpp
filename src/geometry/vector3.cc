@@ -117,7 +117,7 @@ Vector3 Vector3::operator/(const float &divisor) const
 
 Vector3 Vector3::cross(Vector3 &rhs) const
 {
-    return Vector3(y * rhs.z - z * rhs.y, z * rhs.x - x * rhs.z,
+    return Vector3(y * rhs.z - z * rhs.y, x * rhs.z - z * rhs.x,
                    x * rhs.y - y * rhs.x);
 }
 

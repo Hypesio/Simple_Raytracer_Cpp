@@ -6,6 +6,8 @@ set(SRC
     "src/geometry/vector3.cc"
     "src/scene_objects/camera.cc"
     "src/scene_objects/sphere.cc"
+    "src/scene_objects/triangle.cc"
+    "src/scene_objects/blob.cc"
     "src/scene_objects/point_light.cc"
     "src/textures/color.cc"
     "src/textures/uniform_texture.cc"
